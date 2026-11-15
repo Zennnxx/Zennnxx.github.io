@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abhilash Kundu — Full-stack Developer</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<style>
+  :root{
+    --bg:#F6F7FA; --card:#FFFFFF; --ink:#101E36; --soft:#55617A; --line:#D5DCE8; --accent:#B87408; --chip:#EEF1F6;
+    color-scheme:light; box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B1322; --card:#121C30; --ink:#EAF0FA; --soft:#9AA8C2; --line:#233250; --accent:#F0A82B; --chip:#1A2740; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B1322; --card:#121C30; --ink:#EAF0FA; --soft:#9AA8C2; --line:#233250; --accent:#F0A82B; --chip:#1A2740; color-scheme:dark;
+  }
+  html{ scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const { useState } = React;
+const h = (t, p, ...c) => React.createElement(t, p && p.class ? { ...p, className: p.class, class: undefined } : p, ...c);
+const html = htm.bind(h);
+
+const SKILLS = {
+  "Front end": ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "Bootstrap"],
+  "Back end": ["Node.js", "Express", "REST APIs"],
+  "Databases": ["MongoDB", "MySQL"],
+  "Tools": ["Git", "GitHub", "VS Code", "Postman"],
+  "Security": ["OWASP Top 10", "JWT & session auth", "Input validation", "HTTPS/TLS basics"]
+};
+
+const LINKS = [
+  { label: "GitHub", href: "https://github.com/Zennnxx" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/abhilash-kundu-954971248" },
+  { label: "Email", href: "mailto:abhilashkundu2005@gmail.com" }
+];
+
+function Section({ id, title, children }) {
+  return html`
+    <section id=${id} class="mx-auto max-w-4xl px-5 py-10">
+      <h2 class="text-2xl font-bold tracking-tight">${title}</h2>
+      <div class="mt-1 mb-6 h-[3px] w-10 rounded bg-[var(--accent)]"></div>
+      ${children}
+    </section>`;
+}
+
+function Card({ children }) {
+  return html`<div class="rounded-xl border border-[var(--line)] bg-[var(--card)] p-5">${children}</div>`;
+}
+
+function Skills() {
+  const [tab, setTab] = useState("All");
+  const tabs = ["All", ...Object.keys(SKILLS)];
+  const shown = tab === "All" ? Object.values(SKILLS).flat() : SKILLS[tab];
+  return html`
+    <div>
+      <div class="flex flex-wrap gap-2 mb-5">
+        ${tabs.map(t => html`
+          <button key=${t} onClick=${() => setTab(t)}
+            class=${"rounded-full border px-3.5 py-1.5 text-sm transition " + (t === tab
+              ? "border-[var(--accent)] bg-[var(--accent)] text-white font-semibold"
+              : "border-[var(--line)] bg-[var(--card)] text-[var(--soft)] hover:text-[var(--ink)]")}>${t}</button>`)}
+      </div>
+      <div class="flex flex-wrap gap-2">
+        ${shown.map(s => html`<span key=${s} class="rounded-md bg-[var(--chip)] px-3 py-1.5 text-sm font-medium">${s}</span>`)}
+      </div>
+    </div>`;
+}
+
+function App() {
+  const [dark, setDark] = useState(null);
+  const toggle = () => {
+    const sys = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark === null ? !sys : !dark;
+    setDark(next);
+    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
+  };
+  return html`
+    <div>
+      <header class="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
+        <span class="font-bold tracking-tight">AK<span class="text-[var(--accent)]">.</span></span>
+        <nav class="flex items-center gap-4 text-sm text-[var(--soft)]">
+          <a href="#skills" class="hover:text-[var(--ink)]">Skills</a>
+          <a href="#experience" class="hover:text-[var(--ink)]">Experience</a>
+          <a href="#education" class="hover:text-[var(--ink)]">Education</a>
+          <a href="#contact" class="hover:text-[var(--ink)]">Contact</a>
+          <button onClick=${toggle} aria-label="Toggle theme" class="rounded-md border border-[var(--line)] px-2 py-1">◐</button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="mx-auto max-w-4xl px-5 pt-10 pb-6">
+          <span class="inline-block rounded-full border border-[var(--line)] bg-[var(--card)] px-3 py-1 text-xs text-[var(--soft)]">Open to internships</span>
+          <h1 class="mt-4 text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-7xl">
+            Abhilash<br/>Kundu<span class="text-[var(--accent)]">.</span>
+          </h1>
+          <p class="mt-5 max-w-xl text-lg text-[var(--soft)]">
+            Full-stack developer and third-year IT undergraduate. I build web apps end to end, from database to interface, with security in mind.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            ${LINKS.map((l, i) => html`
+              <a key=${l.label} href=${l.href} target="_blank" rel="noopener"
+                class=${"rounded-lg px-4 py-2.5 text-sm font-semibold " + (i === 0
+                  ? "bg-[var(--accent)] text-white"
+                  : "border border-[var(--line)] bg-[var(--card)]")}>${l.label}</a>`)}
+          </div>
+        </section>
+
+        <${Section} id="skills" title="Skills"><${Skills} /><//>
+
+        <${Section} id="experience" title="Experience">
+          <${Card}>
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 class="font-bold">Full Stack Development Intern</h3>
+              <span class="text-sm text-[var(--soft)]">Completed</span>
+            </div>
+            <p class="text-sm text-[var(--soft)]">Navodita Infotech</p>
+            <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm marker:text-[var(--accent)]">
+              <li>Worked across the stack: HTML, CSS, JavaScript and React on the front end, Node.js and Express on the back end.</li>
+              <li>Built and consumed REST APIs backed by MongoDB and MySQL.</li>
+              <li>Used Git and GitHub for version control, with Postman for API testing.</li>
+            </ul>
+          <//>
+        <//>
+
+        <${Section} id="education" title="Education & Achievements">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <${Card}>
+              <h3 class="font-bold">B.Tech, Information Technology</h3>
+              <p class="text-sm text-[var(--soft)]">B. P. Poddar Institute of Technology and Management</p>
+              <p class="mt-1 text-sm">Currently in third year</p>
+            <//>
+            <${Card}>
+              <h3 class="font-bold">Higher Secondary & Secondary</h3>
+              <p class="text-sm text-[var(--soft)]">Techno India Group Public School, Hooghly</p>
+            <//>
+            <${Card}>
+              <h3 class="font-bold">3rd rank, National Science Olympiad</h3>
+              <p class="text-sm text-[var(--soft)]">Science Olympiad Foundation</p>
+            <//>
+            <${Card}>
+              <h3 class="font-bold">Full Stack Development</h3>
+              <p class="text-sm text-[var(--soft)]">Certificate, Cursa</p>
+            <//>
+          </div>
+        <//>
+
+        <${Section} id="contact" title="Let’s talk">
+          <${Card}>
+            <p class="text-[var(--soft)]">I’m looking for an internship where I can ship real features and learn from a team. The fastest way to reach me is email.</p>
+            <a href="mailto:abhilashkundu2005@gmail.com" class="mt-3 inline-block font-semibold text-[var(--accent)]">abhilashkundu2005@gmail.com</a>
+          <//>
+        <//>
+      </main>
+
+      <footer class="mx-auto max-w-4xl px-5 py-8 text-xs text-[var(--soft)]">
+        Built with React and Tailwind CSS.
+      </footer>
+    </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+</script>
+</body>
+</html>
